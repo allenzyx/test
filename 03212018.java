@@ -99,3 +99,24 @@ class Solution {
         return res;
     }
 }
+
+113. Path Sum II
+class Solution {
+    List<List<Integer>> res = new ArrayList<>();
+    public List<List<Integer>> pathSum(TreeNode root, int sum) {
+        if(root == null) return res;
+        Stack<Integer> list = new Stack<>();
+        helper(root,sum,list);
+        return res;
+    }
+    
+    public void helper(TreeNode root, int sum, Stack<Integer> list){
+        list.push(root.val);
+        if(root.left == null && root.right == null && root.val == sum){
+            res.add(new ArrayList<Integer>(list));
+        }
+        if(root.left!=null) helper(root.left,sum-root.val,list);
+        if(root.right!=null) helper(root.right,sum-root.val,list);
+        list.pop();
+    }
+}
