@@ -163,6 +163,7 @@ class Solution {
 }
 
 200. Number of Islands
+//dfs
 class Solution {
     public int numIslands(char[][] grid) {
         int res = 0;
@@ -187,3 +188,49 @@ class Solution {
         helper(grid,i,j-1);
     }
 }
+
+/*
+*
+*
+*
+*
+Union Find
+*
+*
+*
+*
+*/
+public class UnionFind{
+    private int[] id;
+    private int[] size;
+    public UnionFind(int n){
+        id = new int[n];
+        size = new int[n];
+        Array.fill(size,1);
+        for(int i = 0; i < n; i++){
+            id[i] = i;
+        }
+    }
+    private int root(int i){
+        while(i!=id[i]){
+            id[i] = id[id[i]];  //path compression
+            i = id[i];
+        }
+    }
+    private boolean find(int p, int q){
+        return root(p) == root(q);
+    }
+    public void unite(int p, int q){
+        int i = root(p);
+        int j = root(q);
+        if(size[i]<size[j]){
+            id[i] = j;
+            size[j] += size[i];
+        }
+        if(size[i] >= size[j]){
+            id[j] = i;
+            size[i] += size[j];
+        }
+    }
+}
+
