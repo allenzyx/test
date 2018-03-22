@@ -119,4 +119,71 @@ class Solution {
         if(root.right!=null) helper(root.right,sum-root.val,list);
         list.pop();
     }
+
+
+129. Sum Root to Leaf Numbers
+class Solution {
+    public int sumNumbers(TreeNode root) {
+        int res = 0;
+        if(root == null) return res;
+        return helper(root,res);
+    }
+    
+    public int helper(TreeNode node, int res){
+        if(node == null) return 0;
+        if(node.left == null && node.right == null) return res*10+node.val;
+        return helper(node.left,res*10+node.val)+helper(node.right,res*10+node.val);
+    }
+}
+
+199. Binary Tree Right Side View
+class Solution {
+    public List<Integer> rightSideView(TreeNode root) {
+        List<Integer> res = new ArrayList<>();
+        if(root == null) return res;
+        Queue<TreeNode> queue = new LinkedList<>();
+        queue.offer(root);
+        while(!queue.isEmpty()){
+            int countInLevel = queue.size();
+            for(int i = 0; i < countInLevel; i++){
+                TreeNode node = queue.poll();
+                if(node.left!= null){
+                    queue.offer(node.left);
+                }
+                if(node.right!=null){
+                    queue.offer(node.right);
+                }
+                if(i == countInLevel-1){
+                    res.add(node.val);
+                }
+            }
+        }
+        return res;
+    }
+}
+
+200. Number of Islands
+class Solution {
+    public int numIslands(char[][] grid) {
+        int res = 0;
+        if(grid == null) return res;
+        for(int i = 0; i < grid.length; i++){
+            for(int j = 0; j < grid[0].length; j++){
+                if(grid[i][j] == '1'){
+                    res++;
+                    helper(grid,i,j);
+                }
+            }
+        }
+        return res;
+    }
+    
+    public void helper(char[][] grid, int i, int j){
+        if(i < 0 || i >= grid.length || j < 0 || j >= grid[0].length || grid[i][j] == '0') return;
+        grid[i][j] = '0';
+        helper(grid,i+1,j);
+        helper(grid,i-1,j);
+        helper(grid,i,j+1);
+        helper(grid,i,j-1);
+    }
 }
